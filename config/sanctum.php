@@ -48,6 +48,8 @@ return [
 
     'expiration' => null,
 
+    'c-expiration' => today()->addYear(),
+
     /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware
@@ -62,6 +64,11 @@ return [
     'middleware' => [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
+    ],
+
+    'abilities' => [
+        'create-domain',
+        'update-domain',
     ],
 
 ];
