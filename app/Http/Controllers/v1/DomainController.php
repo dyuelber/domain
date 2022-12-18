@@ -2,39 +2,25 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AbstractController;
 use App\Http\Requests\RequestDomain;
-use App\Services\CreateDomain;
-use App\Services\UpdateDomain;
-use Illuminate\Http\Response;
+use App\Repositories\DomainRepository;
+use App\Services\DomainService;
+use Illuminate\Http\Request;
 
-class DomainController extends Controller
+class DomainController extends AbstractController
 {
-
-    public function store(RequestDomain $request)
+    public function __construct()
     {
-        try {
-            $domain = (new CreateDomain())->handle($request->all());
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage());
-        }
-
-        return $this->success($domain, null, Response::HTTP_CREATED);
+        $this->repository = new DomainRepository();
+        $this->service = new DomainService();
+        $this->request = new RequestDomain();
     }
 
-    public function update(RequestDomain $request)
+    public function idParam(Request $request): string
     {
-        try {
-            $domain = (new UpdateDomain())->handle($request->all());
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage());
-        }
-
-        return $this->success($domain);
-    }
-
-    public function destroy($id)
-    {
-        //
+        return $request->id
+            ?? $request->uuid
+            ?? $request->current;
     }
 }

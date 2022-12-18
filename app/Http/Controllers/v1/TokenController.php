@@ -2,37 +2,35 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AbstractController;
 use App\Http\Requests\RequestToken;
-use App\Services\CreateUserApi;
+use App\Repositories\UserRepository;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
-class TokenController extends Controller
+class TokenController extends AbstractController
 {
-    public function index()
+    public function __construct()
     {
-        return $this->success(config('sanctum.abilities'));
+        $this->repository = new UserRepository();
+        $this->service = new UserService();
+        $this->request = new RequestToken();
+    }
+    
+    public function index(Request $request)
+    {
+        return $this->success($this->repository->abilities());
     }
 
-    public function store(RequestToken $request)
+    public function updateAbilities(Request $request)
     {
+        $id = $this->idParam($request);
         try {
-            $token = (new CreateUserApi())->handle($request->all());
+            $response = $this->service->updateAbilities($request->all(), $id);
         } catch (\Throwable $th) {
             return $this->error($th->getMessage());
         }
 
-        return $this->success($token, null, Response::HTTP_CREATED);
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        return $this->success($response);
     }
 }

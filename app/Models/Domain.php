@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Domain extends Model
 {
     use HasFactory;
-
-    protected $table = 'domains';
+    use HasUuid;
 
     protected $fillable = [
         'user_id',
