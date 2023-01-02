@@ -33,7 +33,7 @@ class UserService extends AbstractService
             throw new MissingParameterException('password');
         }
     }
- 
+
     public function afterCreate(Model $model, array $data): mixed
     {
         $expire = config('sanctum.c-expiration');
@@ -60,6 +60,10 @@ class UserService extends AbstractService
         }
     }
 
+    public function createUserToken(array $data)
+    {
+    }
+
     public function updateAbilities(array $data, string $id): Model
     {
         try {
@@ -79,5 +83,20 @@ class UserService extends AbstractService
         }
 
         return $token;
+    }
+
+    public function createUser(array $data)
+    {
+        try {
+            DB::beginTransaction();
+            $data = $this->beforeCreate($data);
+            $response = $this->repository->create($data);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+
+        return $response;
     }
 }

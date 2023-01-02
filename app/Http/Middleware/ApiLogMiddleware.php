@@ -2,16 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\AbstractService;
 use App\Services\ApiLogService;
 use Closure;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class ApiLogMiddleware
 {
-    protected AbstractService $service;
+    protected $service;
 
     public function __construct(ApiLogService $service)
     {
@@ -30,7 +27,7 @@ class ApiLogMiddleware
         return $next($request);
     }
 
-    public function terminate(Request $request, Response|RedirectResponse $response)
+    public function terminate($request, $response): void
     {
         $this->service->createLog($request, $response);
     }

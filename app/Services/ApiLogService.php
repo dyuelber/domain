@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ApiLogRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,11 +16,17 @@ class ApiLogService extends AbstractService
         $this->repository = new ApiLogRepository();
     }
 
-    public function createLog(Request $request, Response|RedirectResponse $response)
+    public function createLog(Request $request, Response|RedirectResponse|JsonResponse $response)
     {
-        $endTime = microtime(true);
-
         $currentRouteAction = Route::currentRouteAction();
+
+        $controller = explode('@', $currentRouteAction)[0];
+        $action = explode('@', $currentRouteAction)[1];
+
+        $payload = [
+            'request' => $request->all(),
+            'response' => $response->original,
+        ];
 
         $data = [
             'user_id' => auth()->user() ?? null,
@@ -27,10 +34,10 @@ class ApiLogService extends AbstractService
             'method' => $request->method(),
             'url' => $request->path(),
             'code' => $response->status(),
-            'duration' => number_format($endTime - LARAVEL_START, 3),
-            'controller' => $currentRouteAction,
-            'action' => $currentRouteAction,
-            'payload' => json_encode($request->all()),
+            'duration' => number_format(microtime(true) - LARAVEL_START, 3),
+            'controller' => $controller,
+            'action' => $action,
+            'payload' => json_encode($payload),
         ];
 
         return $this->repository->create($data);
