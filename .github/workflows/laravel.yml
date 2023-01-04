@@ -26,7 +26,6 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
       run: |
-        - name: Create Database
         echo -e "Enable LOAD DATA LOCAL INFILE in my.cnf\n"
         echo -e "SETTING secure-file-priv TO EMPTY STRING\n"
         echo -e "[mysqld]\nsecure-file-priv=''" | sudo tee -a /etc/mysql/my.cnf
