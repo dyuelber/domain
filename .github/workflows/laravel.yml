@@ -26,10 +26,18 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
       run: |
-        mkdir -p database
-        touch database/database.sqlite
+        - name: Create Database
+        echo -e "Enable LOAD DATA LOCAL INFILE in my.cnf\n"
+        echo -e "SETTING secure-file-priv TO EMPTY STRING\n"
+        echo -e "[mysqld]\nsecure-file-priv=''" | sudo tee -a /etc/mysql/my.cnf
+        echo -e "SETTING local_infile TO ON\n"
+        echo -e "[mysqld]\nlocal_infile='ON'" | sudo tee -a /etc/mysql/my.cnf
+        echo -e "Start MYSQL service, it is off by default\n"
+        sudo systemctl enable mysql.service
+        sudo systemctl start mysql.service
+        echo -e "Creating Laravel Database\n"
+        mysql --host 127.0.0.1 -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS domain;'
+        echo -e "Check new settings\n"
+        mysql --host 127.0.0.1 -uroot -proot -e "SELECT @@global.secure_file_priv, @@global.local_infile"
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
