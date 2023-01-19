@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,20 +18,20 @@ class ApiLogFactory extends Factory
     public function definition()
     {
         $method = ['GET', 'POST', 'PUT', 'DELETE'];
-        $end = microtime();
+        $end    = microtime();
 
         return [
-            'user_id' => function () {
+            'user_id'    => function () {
                 return User::factory()->create();
             },
-            'ip' => fake()->ipv4(),
-            'method' => $method[array_rand($method)],
-            'url' => fake()->url(),
-            'code' => fake()->numberBetween(100, 500),
-            'duration' => number_format((int) $end - LARAVEL_START, 3),
+            'ip'         => fake()->ipv4(),
+            'method'     => $method[array_rand($method)],
+            'url'        => fake()->url(),
+            'code'       => fake()->numberBetween(100, 500),
+            'duration'   => number_format((int) $end - LARAVEL_START, 3),
             'controller' => 'controller',
-            'action' => 'action',
-            'payload' => json_encode(['n1' => fake()->name(), 'p2' => fake()->name()]),
+            'action'     => 'action',
+            'payload'    => json_encode(['n1' => fake()->name(), 'p2' => fake()->name()]),
         ];
     }
 }

@@ -13,7 +13,7 @@ class RequestDomain extends AbstractRequest
     {
         return [
             'current' => 'required|string|min:5',
-            'old' => 'nullable|string|min:5'
+            'old'     => 'nullable|string|min:5',
         ];
     }
 }

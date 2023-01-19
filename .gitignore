@@ -15,6 +15,6 @@ npm-debug.log
 yarn-error.log
 /.fleet
 /.idea
-/.vscode
+/.vscode/launch.json
 .DS_Store
 /.env.testing

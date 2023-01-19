@@ -21,23 +21,23 @@ class ApiLogService extends AbstractService
         $currentRouteAction = Route::currentRouteAction();
 
         $controller = explode('@', $currentRouteAction)[0];
-        $action = explode('@', $currentRouteAction)[1];
+        $action     = explode('@', $currentRouteAction)[1];
 
         $payload = [
-            'request' => $request->all(),
+            'request'  => $request->all(),
             'response' => $response->original,
         ];
 
         $data = [
-            'user_id' => auth()->user() ?? null,
-            'ip' => $request->ip(),
-            'method' => $request->method(),
-            'url' => $request->path(),
-            'code' => $response->status(),
-            'duration' => number_format(microtime(true) - LARAVEL_START, 3),
+            'user_id'    => auth()->user() ?? null,
+            'ip'         => $request->ip(),
+            'method'     => $request->method(),
+            'url'        => $request->path(),
+            'code'       => $response->status(),
+            'duration'   => number_format(microtime(true) - LARAVEL_START, 3),
             'controller' => $controller,
-            'action' => $action,
-            'payload' => json_encode($payload),
+            'action'     => $action,
+            'payload'    => json_encode($payload),
         ];
 
         return $this->repository->create($data);

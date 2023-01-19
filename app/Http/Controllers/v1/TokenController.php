@@ -13,10 +13,10 @@ class TokenController extends AbstractController
     public function __construct()
     {
         $this->repository = new UserRepository();
-        $this->service = new UserService();
-        $this->request = new RequestToken();
+        $this->service    = new UserService();
+        $this->request    = new RequestToken();
     }
-    
+
     public function index(Request $request)
     {
         return $this->success($this->repository->abilities());

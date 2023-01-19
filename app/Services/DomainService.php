@@ -45,7 +45,7 @@ class DomainService extends AbstractService
         Cache::forget($data['old']);
 
         $domain = $this->repository->findByKey('current', $id);
-        $id = (string) $domain->id;
+        $id     = (string) $domain->id;
 
         return $data;
     }
@@ -71,6 +71,7 @@ class DomainService extends AbstractService
     {
         $domain = $this->repository->findByKey('current', $id);
         $this->repository->delete((string) $domain->id);
+
         return Cache::forget($domain->current);
     }
 }

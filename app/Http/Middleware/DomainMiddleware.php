@@ -18,12 +18,12 @@ class DomainMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $subDomain = explode('.', $request->host())[0];
+        $subDomain  = explode('.', $request->host())[0];
         $domainBase = explode('.', config('app.domain'))[0];
 
         if (! Cache::get($subDomain) && $subDomain != $domainBase) {
             $domain = (new DomainRepository())->findByKey('current', $subDomain);
-            
+
             if (! $domain) {
                 return redirect()->away(config('app.url'));
             }

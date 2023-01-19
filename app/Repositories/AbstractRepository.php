@@ -38,6 +38,7 @@ abstract class AbstractRepository implements RepositoryContract
     {
         $this->model->fill($data);
         $this->model->save();
+
         return $this->model;
     }
 
@@ -54,6 +55,7 @@ abstract class AbstractRepository implements RepositoryContract
     public function delete(string $id): bool
     {
         $model = $this->find($id);
+
         return $model->delete();
     }
 }

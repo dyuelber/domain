@@ -18,7 +18,7 @@ class UserService extends AbstractService
     {
         $this->validateCreate($data);
 
-        $data['name'] = $data['email'];
+        $data['name']     = $data['email'];
         $data['password'] = bcrypt($data['password']);
 
         return $data;
@@ -36,9 +36,9 @@ class UserService extends AbstractService
 
     public function afterCreate(Model $model, array $data): mixed
     {
-        $expire = config('sanctum.c-expiration');
-        $token = $model->createToken($data['email'], data_get($data, 'abilities'), $expire);
-        $model->token = $token->plainTextToken;
+        $expire         = config('sanctum.c-expiration');
+        $token          = $model->createToken($data['email'], data_get($data, 'abilities'), $expire);
+        $model->token   = $token->plainTextToken;
         $model->expires = $expire->toDateTimeString();
 
         return null;
@@ -70,8 +70,8 @@ class UserService extends AbstractService
             DB::beginTransaction();
             $data = $this->beforeUpdate($data, $id);
 
-            $token = auth()->user()->tokens()->where('tokenable_id', $id)->first();
-            $token->abilities = $data['abilities'];
+            $token             = auth()->user()->tokens()->where('tokenable_id', $id)->first();
+            $token->abilities  = $data['abilities'];
             $token->expires_at = today()->addYear();
             $token->save();
 
@@ -89,7 +89,7 @@ class UserService extends AbstractService
     {
         try {
             DB::beginTransaction();
-            $data = $this->beforeCreate($data);
+            $data     = $this->beforeCreate($data);
             $response = $this->repository->create($data);
             DB::commit();
         } catch (\Throwable $th) {

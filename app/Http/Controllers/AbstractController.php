@@ -15,9 +15,9 @@ abstract class AbstractController extends Controller
         protected AbstractRepository $repository,
         protected AbstractRequest $request
     ) {
-        $this->service = $service;
+        $this->service    = $service;
         $this->repository = $repository;
-        $this->request = $request;
+        $this->request    = $request;
     }
 
     public function idParam(Request $request): string
@@ -89,20 +89,20 @@ abstract class AbstractController extends Controller
     protected function success(mixed $data, string $msg = null, int $status = Response::HTTP_OK)
     {
         return response()->json([
-            'type' => 'success',
-            'status' => $status,
-            'message' => $msg ?? 'Successful operation',
-            'response' => $data
+            'type'     => 'success',
+            'status'   => $status,
+            'message'  => $msg ?? 'Successful operation',
+            'response' => $data,
         ], $status);
     }
 
     protected function error(string $msg = null, mixed $data = null, int $status = Response::HTTP_UNPROCESSABLE_ENTITY)
     {
         return response()->json([
-            'type' => 'error',
-            'status' => $status,
-            'message' => $msg ?? 'Operation failure',
-            'response' => $data
+            'type'     => 'error',
+            'status'   => $status,
+            'message'  => $msg ?? 'Operation failure',
+            'response' => $data,
         ], $status);
     }
 }

@@ -33,7 +33,7 @@ abstract class AbstractService implements ServiceContract
     {
         try {
             DB::beginTransaction();
-            $data = $this->beforeCreate($data);
+            $data     = $this->beforeCreate($data);
             $response = $this->repository->create($data);
             $this->afterCreate($response, $data);
             DB::commit();
@@ -63,7 +63,7 @@ abstract class AbstractService implements ServiceContract
     {
         try {
             DB::beginTransaction();
-            $data = $this->beforeUpdate($data, $id);
+            $data     = $this->beforeUpdate($data, $id);
             $response = $this->repository->update($data, $id);
             $this->afterUpdate($response, $data);
             DB::commit();

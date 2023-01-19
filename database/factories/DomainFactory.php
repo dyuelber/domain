@@ -18,12 +18,12 @@ class DomainFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => fake()->uuid(),
+            'uuid'    => fake()->uuid(),
             'user_id' => function () {
                 return User::factory()->create()->id;
             },
             'current' => fake()->domainName(),
-            'old' => fake()->domainName(),
+            'old'     => fake()->domainName(),
         ];
     }
 }

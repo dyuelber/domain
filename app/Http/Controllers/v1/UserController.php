@@ -13,9 +13,9 @@ class UserController extends AbstractController
 {
     public function __construct()
     {
-        $this->service = new UserService();
+        $this->service    = new UserService();
         $this->repository = new UserRepository();
-        $this->request = new RequestCreateUser();
+        $this->request    = new RequestCreateUser();
     }
 
     public function createUser(Request $request)

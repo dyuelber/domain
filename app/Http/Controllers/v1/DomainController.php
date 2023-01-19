@@ -13,8 +13,8 @@ class DomainController extends AbstractController
     public function __construct()
     {
         $this->repository = new DomainRepository();
-        $this->service = new DomainService();
-        $this->request = new RequestDomain();
+        $this->service    = new DomainService();
+        $this->request    = new RequestDomain();
     }
 
     public function idParam(Request $request): string

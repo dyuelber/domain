@@ -25,9 +25,9 @@ class TokenTest extends TestCase
     public function create_user_and_token_succesfull()
     {
         $email = fake()->email();
-        $user = $this->service->create([
-            'email' => $email,
-            'password' => '123456',
+        $user  = $this->service->create([
+            'email'     => $email,
+            'password'  => '123456',
             'abilities' => config('sanctum.abilities'),
         ]);
 
@@ -48,8 +48,8 @@ class TokenTest extends TestCase
         $this->expectException(MissingParameterException::class);
 
         $this->service->create([
-            'email' => null,
-            'password' => '123456',
+            'email'     => null,
+            'password'  => '123456',
             'abilities' => config('sanctum.abilities'),
         ]);
     }
@@ -82,7 +82,7 @@ class TokenTest extends TestCase
 
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_id' => $user->id,
-            'expires_at' => today()->addYear(),
+            'expires_at'   => today()->addYear(),
         ]);
     }
 

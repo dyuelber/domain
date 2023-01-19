@@ -12,7 +12,7 @@ class RequestCreateUser extends AbstractRequest
     public function rules(): mixed
     {
         return [
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required|string|min:6',
         ];
     }

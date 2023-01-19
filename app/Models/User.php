@@ -17,7 +17,6 @@ class User extends Authenticatable
     use Notifiable;
     use HasUuid;
 
-
     /**
      * The attributes that are mass assignable.
      *

@@ -67,12 +67,12 @@ class DomainTest extends TestCase
 
         $this->service->update([
             'current' => null,
-            'old' => $domain->current,
+            'old'     => $domain->current,
         ], $domain->current);
 
         $this->assertDatabaseHas('domains', [
             'current' => $domain->current,
-            'old' => null,
+            'old'     => null,
         ]);
     }
 
@@ -81,17 +81,17 @@ class DomainTest extends TestCase
      */
     public function update_domain_succesfull()
     {
-        $domain = Domain::factory()->create();
+        $domain    = Domain::factory()->create();
         $newDomain = fake()->domainName();
 
         $this->service->update([
             'current' => $newDomain,
-            'old' => $domain->current,
+            'old'     => $domain->current,
         ], $domain->current);
 
         $this->assertDatabaseHas('domains', [
             'current' => $newDomain,
-            'old' => $domain->current,
+            'old'     => $domain->current,
         ]);
     }
 }
