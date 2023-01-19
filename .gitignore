@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode/launch.json
 .DS_Store
 /.env.testing
+.php-cs-fixer.cache
