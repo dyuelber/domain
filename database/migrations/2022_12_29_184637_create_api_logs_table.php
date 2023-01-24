@@ -14,6 +14,7 @@ return new class() extends Migration {
     {
         Schema::create('api_logs', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
             $table->foreignId('user_id')
                 ->nullable()
                 ->references('id')
@@ -25,8 +26,7 @@ return new class() extends Migration {
             $table->string('duration')->nullable();
             $table->string('controller')->nullable();
             $table->string('action')->nullable();
-            $table->text('payload')->nullable();
-            $table->timestamps();
+            $table->json('payload')->nullable();
         });
     }
 

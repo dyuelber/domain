@@ -14,11 +14,11 @@ return new class() extends Migration {
     {
         Schema::create('domains', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
             $table->uuid()->index();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('current')->index();
             $table->string('old')->index()->nullable();
-            $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
         });
