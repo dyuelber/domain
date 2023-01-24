@@ -2,16 +2,13 @@
 
 namespace Tests\Unit;
 
-use App\Services\ApiLogService;
 use Tests\TestCase;
 
-class ApiLogTest extends TestCase
+class UserUnitTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-
-        $this->service = new ApiLogService();
     }
 
     /**
