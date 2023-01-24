@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Domains\ApiLogs\Services;
 
-use App\Repositories\ApiLogRepository;
+use App\Domains\Abstracts\Services\AbstractService;
+use App\Domains\ApiLogs\Repositories\ApiLogRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,9 +12,9 @@ use Illuminate\Support\Facades\Route;
 
 class ApiLogService extends AbstractService
 {
-    public function __construct()
+    public function __construct(ApiLogRepository $repository)
     {
-        $this->repository = new ApiLogRepository();
+        $this->repository = $repository;
     }
 
     public function createLog(Request $request, Response|RedirectResponse|JsonResponse $response)

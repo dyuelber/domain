@@ -2,21 +2,24 @@
 
 namespace Tests\Unit;
 
+use App\Domains\Users\Services\UserService;
 use App\Exceptions\MissingParameterException;
 use App\Models\User;
-use App\Services\UserService;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class TokenTest extends TestCase
 {
     protected UserService $service;
+    protected $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->service = new UserService();
+        $this->service = app(UserService::class);
+
+        $this->user = User::factory()->make();
     }
 
     /**

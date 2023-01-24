@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Domains\Abstracts\Interfaces;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface ServiceContract
+interface ServiceInterface
 {
     public function create(array $data): Model;
 

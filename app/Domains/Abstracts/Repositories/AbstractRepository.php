@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Domains\Abstracts\Repositories;
 
+use App\Domain\Abstracts\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractRepository implements RepositoryContract
+abstract class AbstractRepository implements RepositoryInterface
 {
     public const PER_PAGE = 10;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Domains\Abstracts\Interfaces;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface RepositoryContract
+interface RepositoryInterface
 {
     public function find(string $id): ?Model;
 

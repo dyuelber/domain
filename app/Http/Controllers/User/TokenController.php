@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Domains\Users\Services\UserService;
 use App\Http\Controllers\AbstractController;
 use App\Http\Requests\RequestToken;
-use App\Repositories\UserRepository;
-use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class TokenController extends AbstractController
 {
-    public function __construct()
+    public function __construct(UserService $service, RequestToken $request)
     {
-        $this->repository = new UserRepository();
-        $this->service    = new UserService();
-        $this->request    = new RequestToken();
-    }
-
-    public function index(Request $request)
-    {
-        return $this->success($this->repository->abilities());
+        $this->service = $service;
+        $this->request = $request;
     }
 
     public function updateAbilities(Request $request)

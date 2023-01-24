@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Services;
+namespace App\Domains\Domains\Services;
 
+use App\Domain\Abstracts\Services\AbstractService;
+use App\Domains\Domains\Repositories\DomainRepository;
 use App\Exceptions\MissingParameterException;
-use App\Repositories\DomainRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class DomainService extends AbstractService
 {
-    public function __construct()
+    public function __construct(DomainRepository $repository)
     {
-        $this->repository = new DomainRepository();
+        $this->repository = $repository;
     }
 
     public function beforeCreate(array $data): array

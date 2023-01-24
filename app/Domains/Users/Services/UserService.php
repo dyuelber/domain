@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Services;
+namespace App\Domains\Users\Services;
 
+use App\Domains\Abstracts\Services\AbstractService;
+use App\Domains\Users\Repositories\UserRepository;
 use App\Exceptions\MissingParameterException;
-use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class UserService extends AbstractService
 {
-    public function __construct()
+    public function __construct(UserRepository $repository)
     {
-        $this->repository = new UserRepository();
+        $this->repository = $repository;
     }
 
     public function beforeCreate(array $data): array

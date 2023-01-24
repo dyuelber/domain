@@ -2,23 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Abstracts\Services\AbstractService;
 use App\Http\Requests\AbstractRequest;
-use App\Repositories\AbstractRepository;
-use App\Services\AbstractService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 abstract class AbstractController extends Controller
 {
-    public function __construct(
-        protected AbstractService $service,
-        protected AbstractRepository $repository,
-        protected AbstractRequest $request
-    ) {
-        $this->service    = $service;
-        $this->repository = $repository;
-        $this->request    = $request;
-    }
+    protected AbstractService $service;
+    protected AbstractRequest $request;
 
     public function idParam(Request $request): string
     {
