@@ -1,32 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\v1;
+namespace App\Http\Controllers\User;
 
-use App\Domain\Users\Services\UserService;
+use App\Domains\Users\Services\UserService;
 use App\Http\Controllers\AbstractController;
-use App\Http\Requests\RequestCreateUser;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\User\UpdateUser;
 
 class UserController extends AbstractController
 {
-    public function __construct(
-        UserService $userService,
-        RequestCreateUser $requestCreateUser
-    ) {
-        $this->service = $userService;
-        $this->request = $requestCreateUser;
-    }
-
-    public function createUser(Request $request)
+    public function __construct(UserService $userService)
     {
-        try {
-            $this->validate($request, $this->request->rules());
-            $response = $this->service->createUser($request->all());
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage());
-        }
-
-        return $this->success($response, null, Response::HTTP_CREATED);
+        $this->service       = $userService;
+        $this->requestUpdate = UpdateUser::class;
     }
 }

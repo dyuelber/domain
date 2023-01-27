@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\v1\DomainController;
-use App\Http\Controllers\v1\TokenController;
-use App\Http\Controllers\v1\UserController;
+use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Domain\DomainController;
+use App\Http\Controllers\User\TokenController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Health\Http\Controllers\HealthCheckJsonResultsController;
@@ -25,29 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::prefix('users')->group(function () {
-        Route::post('/', [UserController::class, 'createUser']);
-    });
+    Route::post('accounts', [AccountController::class, 'store']);
 
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::prefix('tokens')->group(function () {
-            Route::get('/abilities', [TokenController::class, 'index']);
-            Route::post('/', [TokenController::class, 'store']);
-            Route::put('/{id}', [TokenController::class, 'updateAbilities'])->middleware('ability:update-user');
-        });
+    Route::middleware(['auth:sanctum', 'ability:basic-user'])->group(function () {
+        Route::apiResource('abilities', TokenController::class);
 
-        Route::prefix('domains')->group(function () {
-            Route::get('/', [DomainController::class, 'index'])->middleware('ability:list-domains');
-            Route::post('/', [DomainController::class, 'store'])->middleware('ability:create-domain');
-            Route::put('/{id}', [DomainController::class, 'update'])->middleware('ability:update-domain');
-            Route::delete('/{id}', [DomainController::class, 'destroy'])->middleware('ability:delete-domain');
-        });
+        Route::apiResource('domains', DomainController::class)->middleware('ability:domains');
 
-        Route::prefix('users')->group(function () {
-            Route::get('/', [UserController::class, 'index']);
-            //Route::post('/', [UserController::class, 'store']);
-            Route::put('/{id}', [UserController::class, 'update']);
-            //Route::delete('/{id}', [UserController::class, 'destroy']);
-        });
+        Route::apiResource('users', UserController::class)->middleware('ability:users');
     });
 });

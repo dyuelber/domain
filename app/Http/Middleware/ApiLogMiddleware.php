@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\ApiLogService;
+use App\Domains\ApiLogs\Services\ApiLogService;
 use Closure;
 use Illuminate\Http\Request;
 

@@ -14,7 +14,7 @@ interface RepositoryInterface
 
     public function create(array $data): Model;
 
-    public function update(array $data, string $id): Model;
+    public function update(string $id, array $data): Model;
 
     public function delete(string $id): bool;
 }

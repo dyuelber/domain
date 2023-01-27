@@ -5,8 +5,6 @@ namespace App\Domains\Users\Services;
 use App\Domains\Abstracts\Services\AbstractService;
 use App\Domains\Users\Repositories\UserRepository;
 use App\Exceptions\MissingParameterException;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class UserService extends AbstractService
 {
@@ -15,17 +13,7 @@ class UserService extends AbstractService
         $this->repository = $repository;
     }
 
-    public function beforeCreate(array $data): array
-    {
-        $this->validateCreate($data);
-
-        $data['name']     = $data['email'];
-        $data['password'] = bcrypt($data['password']);
-
-        return $data;
-    }
-
-    public function validateCreate(array &$data)
+    public function validateCreate(array $data): void
     {
         if (! data_get($data, 'email')) {
             throw new MissingParameterException('email');
@@ -33,71 +21,5 @@ class UserService extends AbstractService
         if (! data_get($data, 'password')) {
             throw new MissingParameterException('password');
         }
-    }
-
-    public function afterCreate(Model $model, array $data): mixed
-    {
-        $expire         = config('sanctum.c-expiration');
-        $token          = $model->createToken($data['email'], data_get($data, 'abilities'), $expire);
-        $model->token   = $token->plainTextToken;
-        $model->expires = $expire->toDateTimeString();
-
-        return null;
-    }
-
-    public function beforeUpdate(array $data, string &$id): array
-    {
-        $this->validateUpdate($data, $id);
-
-        $id = auth()->user()->id;
-
-        return $data;
-    }
-
-    public function validateUpdate(array &$data, string &$id)
-    {
-        if (! data_get($data, 'abilities') || ! is_array($data['abilities'])) {
-            throw new MissingParameterException('abilities');
-        }
-    }
-
-    public function createUserToken(array $data)
-    {
-    }
-
-    public function updateAbilities(array $data, string $id): Model
-    {
-        try {
-            DB::beginTransaction();
-            $data = $this->beforeUpdate($data, $id);
-
-            $token             = auth()->user()->tokens()->where('tokenable_id', $id)->first();
-            $token->abilities  = $data['abilities'];
-            $token->expires_at = today()->addYear();
-            $token->save();
-
-            $this->afterUpdate($token, $data);
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            throw $th;
-        }
-
-        return $token;
-    }
-
-    public function createUser(array $data)
-    {
-        try {
-            DB::beginTransaction();
-            $data     = $this->beforeCreate($data);
-            $response = $this->repository->create($data);
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            throw $th;
-        }
-
-        return $response;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Abstracts\Repositories;
 
-use App\Domain\Abstracts\Interfaces\RepositoryInterface;
+use App\Domains\Abstracts\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractRepository implements RepositoryInterface
@@ -43,7 +43,7 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->model;
     }
 
-    public function update(array $data, string $id): Model
+    public function update(string $id, array $data): Model
     {
         $model = $this->find($id);
 

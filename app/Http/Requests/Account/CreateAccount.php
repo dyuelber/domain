@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Account;
 
-class RequestCreateUser extends AbstractRequest
+use App\Http\Requests\AbstractRequest;
+
+class CreateAccount extends AbstractRequest
 {
     public function authorize(): bool
     {
@@ -12,6 +14,7 @@ class RequestCreateUser extends AbstractRequest
     public function rules(): mixed
     {
         return [
+            'name'     => 'required|string|max:256',
             'email'    => 'required|email',
             'password' => 'required|string|min:6',
         ];

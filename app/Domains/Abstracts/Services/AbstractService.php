@@ -2,19 +2,20 @@
 
 namespace App\Domains\Abstracts\Services;
 
-use App\Domain\Abstracts\Interfaces\ServiceInterface;
+use App\Domains\Abstracts\Interfaces\ServiceInterface;
 use App\Domains\Abstracts\Repositories\AbstractRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 abstract class AbstractService implements ServiceInterface
 {
     protected AbstractRepository $repository;
 
-    public function all(int $perPage)
+    public function all(int $perPage = null)
     {
-        return $this->repository->all($perPage);
+        return $this->repository->all($perPage ?? AbstractRepository::PER_PAGE);
     }
 
     public function find(string $id): ?Model
@@ -52,7 +53,7 @@ abstract class AbstractService implements ServiceInterface
             $this->afterCreate($response, $data);
 
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
             throw $th;
         }
@@ -64,7 +65,7 @@ abstract class AbstractService implements ServiceInterface
     {
     }
 
-    public function beforeUpdate(array $data, string &$id): array
+    public function beforeUpdate(array $data, string $id): array
     {
         return $data;
     }
@@ -74,18 +75,18 @@ abstract class AbstractService implements ServiceInterface
         return null;
     }
 
-    public function update(array $data, string $id): Model
+    public function update(string $id, array $data): Model
     {
         try {
             DB::beginTransaction();
 
             $this->validateUpdate($data, $id);
             $data     = $this->beforeUpdate($data, $id);
-            $response = $this->repository->update($data, $id);
+            $response = $this->repository->update($id, $data);
             $this->afterUpdate($response, $data);
 
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
             throw $th;
         }
@@ -112,7 +113,7 @@ abstract class AbstractService implements ServiceInterface
             $response = $this->repository->delete($id);
 
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
             throw $th;
         }

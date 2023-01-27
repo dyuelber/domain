@@ -1,29 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\v1;
+namespace App\Http\Controllers\User;
 
-use App\Domains\Users\Services\UserService;
+use App\Domains\Users\Services\TokenService;
 use App\Http\Controllers\AbstractController;
-use App\Http\Requests\RequestToken;
-use Illuminate\Http\Request;
+use App\Http\Requests\User\UpdateToken;
 
 class TokenController extends AbstractController
 {
-    public function __construct(UserService $service, RequestToken $request)
+    public function __construct(TokenService $service)
     {
-        $this->service = $service;
-        $this->request = $request;
-    }
-
-    public function updateAbilities(Request $request)
-    {
-        $id = $this->idParam($request);
-        try {
-            $response = $this->service->updateAbilities($request->all(), $id);
-        } catch (\Throwable $th) {
-            return $this->error($th->getMessage());
-        }
-
-        return $this->success($response);
+        $this->service       = $service;
+        $this->requestUpdate = UpdateToken::class;
     }
 }

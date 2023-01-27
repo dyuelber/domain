@@ -67,13 +67,8 @@ return [
     ],
 
     'abilities'    => [
-        'list-domains',
-        'create-domain',
-        'update-domain',
-        'delete-domain',
-        'list-users',
-        'create-user',
-        'update-user',
-        'delete-user',
+        'basic-user',
+        'domains',
+        'users',
     ],
 ];

@@ -1,26 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\v1;
+namespace App\Http\Controllers\Domain;
 
+use App\Domains\Domains\Services\DomainService;
 use App\Http\Controllers\AbstractController;
 use App\Http\Requests\RequestDomain;
-use App\Repositories\DomainRepository;
-use App\Services\DomainService;
-use Illuminate\Http\Request;
 
 class DomainController extends AbstractController
 {
-    public function __construct()
+    public function __construct(DomainService $service)
     {
-        $this->repository = new DomainRepository();
-        $this->service    = new DomainService();
-        $this->request    = new RequestDomain();
-    }
-
-    public function idParam(Request $request): string
-    {
-        return $request->id
-            ?? $request->uuid
-            ?? $request->current;
+        $this->service       = $service;
+        $this->requestCreate = RequestDomain::class;
     }
 }
