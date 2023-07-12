@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-<a href="https://dyuelber.github.io/domain/" _target="blank">Domain Docs</a>
+<a href="https://dyuelber.github.io/domain/" target="_blank">Domain Docs</a>
 
 ## About Laravel
 
